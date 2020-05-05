@@ -1,4 +1,4 @@
 INSERT_USER = f'''
-INSERT INTO users (username, password, salt)
+INSERT INTO users (email, password, salt)
 VALUES (?, ?, ?);
 '''
