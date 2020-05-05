@@ -2,7 +2,8 @@ CREATE_USERS = '''
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY,
         username VARCHAR(50) NOT NULL,
-        password VARCHAR(255)
+        password VARCHAR(255),
+        salt VARCHAR(50)
     );
 '''
 
