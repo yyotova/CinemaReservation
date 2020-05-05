@@ -1,4 +1,4 @@
-from CinemaReservationSystem.users.users_gateway import UserGateway
+from ..users import UserGateway
 
 
 class UserContoller:
