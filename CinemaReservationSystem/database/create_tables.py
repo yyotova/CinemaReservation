@@ -2,7 +2,8 @@ CREATE_USERS = '''
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY,
         username VARCHAR(50) NOT NULL,
-        password VARCHAR(255)
+        password VARCHAR(255),
+        salt VARCHAR(50)
     );
 '''
 
@@ -32,7 +33,7 @@ CREATE_RESERVATION = '''
         row INTEGER,
         col INTEGER,
         FOREIGN KEY(user_id) REFERENCES users(id),
-        FOREIGN KEY(projection_id) REFERENCES projection(id),
+        FOREIGN KEY(projection_id) REFERENCES projection(id)
     );
 '''
 
