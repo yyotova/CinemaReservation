@@ -1,5 +1,5 @@
 SELECT_USER = f'''
-SELECT username
+SELECT email
 FROM users
-WHERE username = ? AND password = ?;
+WHERE email = ? AND password = ?;
 '''

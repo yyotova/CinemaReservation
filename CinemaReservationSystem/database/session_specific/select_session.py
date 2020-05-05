@@ -1,4 +1,4 @@
 SELECT_SESSION = f'''
-SELECT username
+SELECT email
 FROM session;
 '''

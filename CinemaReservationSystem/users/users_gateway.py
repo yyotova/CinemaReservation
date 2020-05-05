@@ -15,18 +15,18 @@ class UserGateway:
         self.model = UserModel
         self.db = Database()
 
-    def create(self, *, username, password):
-        if self.model.validate(username, password) is True:
+    def create(self, *, email, password):
+        if self.model.validate(email, password) is True:
 
             salt = create_salt()
             if self.db.cursor.execute(SELECT_SALT, ('salt', salt)):
                 salt = create_salt()
             password = hash_password(password, salt)
 
-            self.db.cursor.execute(INSERT_USER, (username, password, salt))  # TODO: create user query
+            self.db.cursor.execute(INSERT_USER, (email, password, salt))  # TODO: create user query
             self.db.cursor.execute(CREATE_SESSION)
             # self.db.connection.connection()
-            self.db.cursor.execute(INSERT_SESSION, (username,))
+            self.db.cursor.execute(INSERT_SESSION, (email,))
             print(self.db.cursor.execute(SELECT_SESSION))
             self.db.connection.commit()
             self.db.connection.close()
@@ -34,14 +34,15 @@ class UserGateway:
         else:
             print("ops")
 
-    def login(self, *, username, password):
-        salt = self.db.cursor.execute(SELECT_SALT, ('username', username)).fetchone()[0]
+    def login(self, *, email, password):
+        salt = self.db.cursor.execute(SELECT_SALT, ('email', email)).fetchone()[0]
+        
         password = hash_password(password, salt)
-        # print(self.db.cursor.execute(SELECT_USER, (username, password)).fetchone())
-        if self.db.cursor.execute(SELECT_USER, (username, password)).fetchone():
+        # print(self.db.cursor.execute(SELECT_USER, (email, password)).fetchone())
+        if self.db.cursor.execute(SELECT_USER, (email, password)).fetchone():
             print('inseide')
             self.db.cursor.execute(CREATE_SESSION)
-            self.db.cursor.execute(INSERT_SESSION, (username,))
+            self.db.cursor.execute(INSERT_SESSION, (email,))
             print(self.db.cursor.execute(SELECT_SESSION).fetchone())
             self.db.connection.commit()
             self.db.connection.close()

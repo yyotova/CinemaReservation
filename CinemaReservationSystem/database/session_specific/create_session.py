@@ -1,4 +1,4 @@
 INSERT_SESSION = f'''
-INSERT INTO session (username)
+INSERT INTO session (email)
 VALUES (?);
 '''
