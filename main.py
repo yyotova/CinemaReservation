@@ -2,8 +2,8 @@ import sys
 
 from CinemaReservationSystem.database.db import Database
 from CinemaReservationSystem.database.create_tables import *
-
-from CinemaReservationSystem.utls.welcome import welcome
+from CinemaReservationSystem.movies import MovieView
+from CinemaReservationSystem.utls import welcome, menu
 
 
 class Application:
@@ -33,7 +33,13 @@ class Application:
 
     @classmethod
     def start(self):
-        welcome()
+        # welcome()
+        menu()
+        command = input('Command: ')
+
+        if command == '1':
+            movie_view = MovieView()
+            movie_view.print_all_movies()
 
 
 if __name__ == '__main__':
