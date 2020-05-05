@@ -9,8 +9,8 @@ CREATE_USERS = '''
 CREATE_MOVIES = '''
     CREATE TABLE IF NOT EXISTS movies(
         id INTEGER PRIMARY KEY,
-        name VARCHAR(50),
-        rating REAL
+        name VARCHAR(50) NOT NULL,
+        rating REAL CHECK(rating > 0 and rating < 10)
     );
 '''
 
