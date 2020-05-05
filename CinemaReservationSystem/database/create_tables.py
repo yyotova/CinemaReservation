@@ -32,7 +32,7 @@ CREATE_RESERVATION = '''
         row INTEGER,
         col INTEGER,
         FOREIGN KEY(user_id) REFERENCES users(id),
-        FOREIGN KEY(projection_id) REFERENCES projection(id),
+        FOREIGN KEY(projection_id) REFERENCES projection(id)
     );
 '''
 
