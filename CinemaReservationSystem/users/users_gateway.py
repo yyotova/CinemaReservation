@@ -1,13 +1,10 @@
 from CinemaReservationSystem.database.db import Database
 from CinemaReservationSystem.users.models import UserModel
-from CinemaReservationSystem.database.session_specific.create_session import INSERT_SESSION
-from CinemaReservationSystem.database.user_specific.create_new_user import INSERT_USER
+from CinemaReservationSystem.database.session_specific.session_manipulation import *
+from CinemaReservationSystem.database.user_specific.user_manipulation import *
+from CinemaReservationSystem.database.create_tables import *
 from CinemaReservationSystem.utls.hash_pass import hash_password
 from CinemaReservationSystem.utls.create_salt import create_salt
-from CinemaReservationSystem.database.user_specific.check_for_salt import SELECT_SALT
-from CinemaReservationSystem.database.user_specific.select_user import SELECT_USER
-from CinemaReservationSystem.database.create_tables import CREATE_SESSION
-from CinemaReservationSystem.database.session_specific.select_session import SELECT_SESSION
 
 
 class UserGateway:
@@ -19,7 +16,7 @@ class UserGateway:
         if self.model.validate(email, password) is True:
 
             salt = create_salt()
-            if self.db.cursor.execute(SELECT_SALT, ('salt', salt)):
+            if self.db.cursor.execute(SELECT_SALT, (salt, )):
                 salt = create_salt()
             password = hash_password(password, salt)
 
@@ -35,9 +32,13 @@ class UserGateway:
             print("ops")
 
     def login(self, *, email, password):
-        salt = self.db.cursor.execute(SELECT_SALT, ('email', email)).fetchone()[0]
-        
-        password = hash_password(password, salt)
+        # fix if no salt
+        salt = self.db.cursor.execute(SELECT_SALT_USER, (email, )).fetchone()[0]
+        # print(f'{salt} {email}')
+        if salt:
+            password = hash_password(password, salt)
+        else:
+            return False
         # print(self.db.cursor.execute(SELECT_USER, (email, password)).fetchone())
         if self.db.cursor.execute(SELECT_USER, (email, password)).fetchone():
             print('inseide')

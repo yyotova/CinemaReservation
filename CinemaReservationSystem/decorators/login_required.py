@@ -1,4 +1,4 @@
-from CinemaReservationSystem.database.session_specific.select_session import SELECT_SESSION
+from CinemaReservationSystem.database.session_specific.session_manipulation import SELECT_SESSION
 from CinemaReservationSystem.database.db import Database
 
 
@@ -14,3 +14,4 @@ def login_required(func):
         return inner_func()
     else:
         return False
+    return login_required()
