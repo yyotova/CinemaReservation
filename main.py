@@ -7,24 +7,29 @@ from CinemaReservationSystem.utls.welcome import welcome
 
 
 class Application:
+    db = Database()
+
     @classmethod
-    def build(self):
-        db = Database()
-        db.cursor.executescript(CREATE_USERS + CREATE_MOVIES + CREATE_PROJECTION + CREATE_RESERVATION + CREATE_SESSION)
-        '''
-        db.cursor.execute(CREATE_USERS)
-        db.cursor.execute(CREATE_MOVIES)
-        db.cursor.execute(CREATE_PROJECTION)
-        db.cursor.execute(CREATE_RESERVATION)
-        db.cursor.execute(CREATE_SESSION)
-        '''
+    def build(cls):
+        cls.db.cursor.executescript(CREATE_USERS + CREATE_MOVIES + CREATE_PROJECTION + CREATE_RESERVATION + CREATE_SESSION)
         # TODO: Build rest of the tables
         # TODO: Seed with inistial data - consider using another command for this
-
-        db.connection.commit()
-        db.connection.close()
-
+        cls.db.connection.commit()
+        cls.db.connection.close()
         print('Done.')
+
+    @classmethod
+    def insert_data(cls):
+        cls.db.insert_data()
+        cls.db.connection.commit()
+        cls.db.connection.close()
+
+    @classmethod
+    def update_projections(cls, *, date):
+        cls.db.delete_passed_projection(date=date)
+        cls.db.connection.commit()
+
+        print('Updated')
 
     @classmethod
     def start(self):
@@ -32,11 +37,15 @@ class Application:
 
 
 if __name__ == '__main__':
-    command = sys.argv[1]
+    command = sys.argv[2]
+    today = sys.argv[1]
 
     if command == 'build':
         Application.build()
     elif command == 'start':
         Application.start()
+        Application.update_projections(date=today)
+    elif command == 'insert_data':
+        Application.insert_data()
     else:
-        raise ValueError(f'Unknown command {command}. Valid ones are "build" and "start"')
+        raise ValueError(f'Unknown command {command}. Valid ones are "build", "start" and "insert data"')

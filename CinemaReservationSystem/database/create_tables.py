@@ -11,7 +11,7 @@ CREATE_MOVIES = '''
     CREATE TABLE IF NOT EXISTS movies(
         id INTEGER PRIMARY KEY,
         name VARCHAR(50),
-        rating REAL
+        rating REAL CHECK(rating > 0 AND rating <= 10)
     );
 '''
 
