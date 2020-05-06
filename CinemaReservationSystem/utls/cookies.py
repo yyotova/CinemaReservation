@@ -27,6 +27,6 @@ def session_exists(file):
 
 def delete_cookie_after_date(file):
     if session_exists(file):
-        date = datetime.datetime.now() + datetime.timedelta(hours=2)
+        date = datetime.datetime.now() + datetime.timedelta(days=2)
         if read_cookie(file).split(",")[1] == f'{date.year}-{date.month}-{date.day}':
             delete_cookie(file)

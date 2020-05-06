@@ -6,12 +6,8 @@ from CinemaReservationSystem.database.create_tables import *
 from CinemaReservationSystem.movies import MovieView
 from CinemaReservationSystem.utls import welcome, menu
 from CinemaReservationSystem.utls.cookies import *
-<<<<<<< HEAD
-# from CinemaReservationSystem.config.config_session import SESSION_NAME
-=======
 from CinemaReservationSystem.config.config_session import SESSION_NAME
 from CinemaReservationSystem.reservations import ReservationView
->>>>>>> 351da7a30adc2ffe5136197de08329573c5bac75
 
 
 class Application:
@@ -41,7 +37,6 @@ class Application:
 
     @classmethod
     def start(self):
-<<<<<<< HEAD
         exit = False
         loged = False
         if check_for_session():
@@ -52,27 +47,6 @@ class Application:
             if choise == '2':
                 delete_cookie(SESSION_NAME)
                 if not welcome():
-=======
-        if welcome():
-            exit = False
-
-            while not exit:
-                menu()
-                command = input('Command: ')
-                if command == '1':
-                    movie_view = MovieView()
-                    movie_view.print_all_movies()
-
-                elif command == '2':
-                    movie_view = MovieView()
-                    movie_id = input('Enter movie_id: ')
-                    date = input('Enter date(optional): ')
-                    movie_view.print_movie_projections(movie_id=movie_id, date=date)
-                elif command == '3':
-                    reservation_view = ReservationView()
-                    reservation_view.make_reservation()
-                elif command == 'exit':
->>>>>>> 351da7a30adc2ffe5136197de08329573c5bac75
                     exit = True
                     loged = True
         if not loged:
@@ -91,6 +65,9 @@ class Application:
                 movie_id = input('Enter movie_id: ')
                 date = input('Enter date(optional): ')
                 movie_view.print_movie_projections(movie_id=movie_id, date=date)
+            elif command == '3':
+                reservation_view = ReservationView()
+                reservation_view.make_reservation()
             elif command == 'exit':
                 exit = True
 
