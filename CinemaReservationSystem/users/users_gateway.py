@@ -9,7 +9,7 @@ from CinemaReservationSystem.utls.create_salt import create_salt
 
 class UserGateway:
     def __init__(self):
-        self.model = UserModel()
+        self.model = UserModel
         self.db = Database()
 
     def create(self, *, email, password):

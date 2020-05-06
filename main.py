@@ -33,7 +33,7 @@ class Application:
 
     @classmethod
     def start(self):
-        # welcome()
+        welcome()
         menu()
         command = input('Command: ')
 
