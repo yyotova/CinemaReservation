@@ -10,7 +10,10 @@ def welcome():
         return user_views.login()
     elif command == '2':
         return user_views.signup()
+        # call menu
     elif command == '3':
         return True
     else:
         raise ValueError(f'Unknown command {command}.')
+
+# change to index view
