@@ -1,17 +1,14 @@
-from CinemaReservationSystem.database.session_specific.session_manipulation import SELECT_SESSION
-from CinemaReservationSystem.database.db import Database
+import os
+# from CinemaReservationSystem.utls.cookies import *
+from CinemaReservationSystem.config.config_session import SESSION_NAME
 
 
-def login_required(func):
-    db = Database()
-    user = db.cursor.execute(SELECT_SESSION).fetchone()
-    db.connection.commit()
-    db.connection.close()
+def login_required(method):
 
-    def inner_func():
-        func()
-    if user:
-        return inner_func()
+    def inner_method(*args, **kwargs):
+       value = method(*args, **kwargs)
+       return value
+    if os.path.exists(SESSION_NAME):
+        return inner_method
     else:
         return False
-    return login_required()
