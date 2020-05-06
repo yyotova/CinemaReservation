@@ -1,11 +1,12 @@
 import sys
 
+from CinemaReservationSystem.utls.session_index import *
 from CinemaReservationSystem.database.db import Database
 from CinemaReservationSystem.database.create_tables import *
 from CinemaReservationSystem.movies import MovieView
 from CinemaReservationSystem.utls import welcome, menu
 from CinemaReservationSystem.utls.cookies import *
-from CinemaReservationSystem.config.config_session import SESSION_NAME
+# from CinemaReservationSystem.config.config_session import SESSION_NAME
 
 
 class Application:
@@ -35,24 +36,36 @@ class Application:
 
     @classmethod
     def start(self):
-        if welcome():
-            exit = False
-
-            while not exit:
-                menu()
-                command = input('Command: ')
-                if command == '1':
-                    movie_view = MovieView()
-                    movie_view.print_all_movies()
-
-                elif command == '2':
-                    movie_view = MovieView()
-                    movie_id = input('Enter movie_id: ')
-                    date = input('Enter date(optional): ')
-                    movie_view.print_movie_projections(movie_id=movie_id, date=date)
-                elif command == 'exit':
+        exit = False
+        loged = False
+        if check_for_session():
+            choise = session_menu()
+            if choise == '1':
+                exit = False
+                loged = True
+            if choise == '2':
+                delete_cookie(SESSION_NAME)
+                if not welcome():
                     exit = True
-                    delete_cookie(SESSION_NAME)
+                    loged = True
+        if not loged:
+            if not welcome():
+                exit = True
+                loged = True
+        while not exit:
+            menu()
+            command = input('Command: ')
+            if command == '1':
+                movie_view = MovieView()
+                movie_view.print_all_movies()
+
+            elif command == '2':
+                movie_view = MovieView()
+                movie_id = input('Enter movie_id: ')
+                date = input('Enter date(optional): ')
+                movie_view.print_movie_projections(movie_id=movie_id, date=date)
+            elif command == 'exit':
+                exit = True
 
 
 if __name__ == '__main__':

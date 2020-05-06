@@ -14,7 +14,7 @@ class UserGateway:
         self.db = Database()
 
     def create(self, *, email, password):
-        if self.model.validate(email, password) is True:
+        if self.model.validate(email, password):
 
             salt = create_salt()
             if self.db.cursor.execute(SELECT_SALT, (salt, )):
@@ -25,7 +25,7 @@ class UserGateway:
             create_cookie(SESSION_NAME, email)
             self.db.connection.commit()
             self.db.connection.close()
-            print(f'Welcome user :{read_cookie(SESSION_NAME)}')
+            print(f'Welcome user :{read_cookie(SESSION_NAME).split(",")[0]}')
             return True
         # TODO: What whould I return?
         else:
@@ -45,7 +45,7 @@ class UserGateway:
 
             if self.db.cursor.execute(SELECT_USER, (email, password)).fetchone():
                 create_cookie(SESSION_NAME, email)
-                print(f'Welcome user :{read_cookie(SESSION_NAME)}')
+                print(f'Welcome user :{read_cookie(SESSION_NAME).split(",")[0]}')
                 return True
             else:
                 print('Wrong password')
