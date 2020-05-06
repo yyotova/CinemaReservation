@@ -14,7 +14,7 @@ class UserGateway:
         self.db = Database()
 
     def create(self, *, email, password):
-        if self.model.validate(email, password) is True:
+        if self.model.validate(email, password):
 
             salt = create_salt()
             if self.db.cursor.execute(SELECT_SALT, (salt, )):

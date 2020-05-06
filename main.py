@@ -6,6 +6,7 @@ from CinemaReservationSystem.movies import MovieView
 from CinemaReservationSystem.utls import welcome, menu
 from CinemaReservationSystem.utls.cookies import *
 from CinemaReservationSystem.config.config_session import SESSION_NAME
+from CinemaReservationSystem.reservations import ReservationView
 
 
 class Application:
@@ -50,6 +51,9 @@ class Application:
                     movie_id = input('Enter movie_id: ')
                     date = input('Enter date(optional): ')
                     movie_view.print_movie_projections(movie_id=movie_id, date=date)
+                elif command == '3':
+                    reservation_view = ReservationView()
+                    reservation_view.make_reservation()
                 elif command == 'exit':
                     exit = True
                     delete_cookie(SESSION_NAME)

@@ -14,3 +14,5 @@ class MovieController:
         else:
             return self.movies_gateway.get_movie_projection(movie_id=movie_id, date=date)
 
+    def movie_title(self, *, movie_id):
+        return self.movies_gateway.get_movie_title(movie_id=movie_id)
