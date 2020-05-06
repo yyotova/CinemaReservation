@@ -7,7 +7,7 @@ class UserModel:
     @staticmethod
     def validate(email, password):
         # TODO: Implement a validation -> Raise an error
-        pass_len = len(password) > 8
+        pass_len = len(password) >= 8
         capital_letter = False
         special_symbol = not password.isidentifier()
         for letter in password:

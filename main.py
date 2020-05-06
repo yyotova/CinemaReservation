@@ -33,13 +33,23 @@ class Application:
 
     @classmethod
     def start(self):
-        welcome()
-        menu()
-        command = input('Command: ')
+        # welcome()
+        exit = False
 
-        if command == '1':
-            movie_view = MovieView()
-            movie_view.print_all_movies()
+        while not exit:
+            menu()
+            command = input('Command: ')
+            if command == '1':
+                movie_view = MovieView()
+                movie_view.print_all_movies()
+
+            elif command == '2':
+                movie_view = MovieView()
+                movie_id = input('Enter movie_id: ')
+                date = input('Enter date(optional): ')
+                movie_view.print_movie_projections(movie_id=movie_id, date=date)
+            elif command == 'exit':
+                exit = True
 
 
 if __name__ == '__main__':
