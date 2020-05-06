@@ -25,9 +25,13 @@ class UserGateway:
             create_cookie(SESSION_NAME, email)
             self.db.connection.commit()
             self.db.connection.close()
+            print(f'Welcome user :{read_cookie(SESSION_NAME)}')
+            return True
         # TODO: What whould I return?
         else:
-            print("ops")
+            # add better text later
+            print("Wrong password and email")
+        return False
 
     def login(self, *, email, password):
         # fix if no salt
@@ -42,7 +46,12 @@ class UserGateway:
             if self.db.cursor.execute(SELECT_USER, (email, password)).fetchone():
                 create_cookie(SESSION_NAME, email)
                 print(f'Welcome user :{read_cookie(SESSION_NAME)}')
-
+                return True
+            else:
+                print('Wrong password')
+        else:
+            print("Wrong username")
+        return False
 
     def all(self):
         raw_users = self.db.cursor.execute()  # TODO: Select all users

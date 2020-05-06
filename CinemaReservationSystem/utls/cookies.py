@@ -15,4 +15,5 @@ def read_cookie(file):
 
 
 def delete_cookie(file):
-    os.remove(file)
+    if os.path.exists(file):
+        os.remove(file)

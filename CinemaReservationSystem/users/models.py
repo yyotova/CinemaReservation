@@ -9,6 +9,7 @@ class UserModel:
 
     @staticmethod
     def validate(email, password):
+        # validate email @ .
         # TODO: Implement a validation -> Raise an error
         pass_len = len(password) >= 8
 

@@ -1,7 +1,7 @@
 CREATE_USERS = '''
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY,
-        email VARCHAR(50) NOT NULL,
+        email VARCHAR(50) NOT NULL UNIQUE,
         password VARCHAR(255),
         salt VARCHAR(50)
     );
@@ -34,11 +34,5 @@ CREATE_RESERVATION = '''
         col INTEGER,
         FOREIGN KEY(user_id) REFERENCES users(id),
         FOREIGN KEY(projection_id) REFERENCES projection(id)
-    );
-'''
-
-CREATE_SESSION = '''
-    CREATE TEMP TABLE IF NOT EXISTS session(
-        email VARCHAR(50)
     );
 '''
