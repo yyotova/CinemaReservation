@@ -6,10 +6,11 @@ class MovieGateway:
         self.db = Database()
 
     def get_all_movies(self):
-        self.db.cursor.execute('SELECT * FROM movies ORDER BY rating DESC')
-        movies = self.db.cursor.fetchall()
-        self.db.connection.commit()
-        self.db.connection.close()
+        with self.db.connection:
+            self.db.cursor.execute('SELECT * FROM movies ORDER BY rating DESC')
+            movies = self.db.cursor.fetchall()
+        # self.db.connection.commit()
+        # self.db.connection.close()
 
         return movies
 
@@ -21,7 +22,8 @@ class MovieGateway:
                   WHERE movie_id = (?)
                     AND date LIKE (?)
             '''
-            self.db.cursor.execute(search_query, (condition['movie_id'], '%' + condition['date'] + '%'))
+            with self.db.connection:
+                self.db.cursor.execute(search_query, (condition['movie_id'], '%' + condition['date'] + '%'))
 
         else:
             search_query = '''
@@ -29,10 +31,18 @@ class MovieGateway:
                   FROM projections
                   WHERE movie_id = (?)
             '''
-            self.db.cursor.execute(search_query, (condition['movie_id'], ))
+            with self.db.connection:
+                self.db.cursor.execute(search_query, (condition['movie_id'], ))
 
         projections = self.db.cursor.fetchall()
-        self.db.connection.commit()
-        self.db.connection.close()
+        # self.db.connection.commit()
+        # self.db.connection.close()
 
         return projections
+
+    def get_movie_title(self, *, movie_id):
+        with self.db.connection:
+            self.db.cursor.execute('SELECT * FROM movies WHERE id = (?)', (movie_id, ))
+        title = self.db.cursor.fetchone()[1]
+
+        return title
