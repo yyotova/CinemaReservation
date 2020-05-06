@@ -4,7 +4,7 @@ import sys
 sys.path.append('.')
 
 
-from CinemaReservationSystem.users.models import UserModel
+from CinemaReservationSystem import UserModel
 
 
 class TestPasswordValidation(unittest.TestCase):

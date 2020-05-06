@@ -7,3 +7,4 @@ def menu():
     [5] exit
     [6] help
     ''')
+# make as index view with call movies
