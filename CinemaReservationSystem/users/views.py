@@ -21,3 +21,6 @@ class UserViews:
         password = input('Password: ')
 
         return self.controller.create_user(email=email, password=password)
+
+    def user_id(self, *, email):
+        return self.controller.take_user_id(email=email)
