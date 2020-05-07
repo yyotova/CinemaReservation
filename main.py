@@ -14,7 +14,7 @@ class Application:
 
     @classmethod
     def build(cls):
-        cls.db.cursor.executescript(CREATE_USERS + CREATE_MOVIES + CREATE_PROJECTION + CREATE_RESERVATION + CREATE_SESSION)
+        cls.db.cursor.executescript(CREATE_USERS + CREATE_MOVIES + CREATE_PROJECTION + CREATE_RESERVATION)
         # TODO: Build rest of the tables
         # TODO: Seed with inistial data - consider using another command for this
         cls.db.connection.commit()
