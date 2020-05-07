@@ -14,5 +14,9 @@ class MovieView:
         projections = self.controller.movie_projection(movie_id=movie_id, date=date)
         print(tabulate([info for info in projections], headers=['id', 'movie_id', 'type', 'date', 'time'], tablefmt='pretty'))
 
+    def get_projections(self, *, movie_id):
+        projections = self.controller.movie_projection(movie_id=movie_id)
+        return projections
+
     def print_movie_title(self, *, movie_id):
         return self.controller.movie_title(movie_id=movie_id)
