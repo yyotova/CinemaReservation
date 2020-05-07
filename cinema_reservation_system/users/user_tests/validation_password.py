@@ -23,9 +23,13 @@ class TestPasswordValidation(unittest.TestCase):
         user = UserModel(id=1, email="ppp@abv.bg", password="passwo$rds")
         self.assertFalse(user.validate(user.email, user.password))
 
-    def test_validation_with_valid_styff(self):
-        user = UserModel(id=1, email="ppp@abv.bg", password="pasS$ords")
-        self.assertTrue(user.validate(user.email, user.password))
+    def test_validation_with_worng_mail_no_nokey_a(self):
+        user = UserModel(id=1, email="pppabv.bg", password="Passwo$rds")
+        self.assertFalse(user.validate(user.email, user.password))
+
+    def test_validation_with_wrong_mail_no_dotself(self):
+        user = UserModel(id=1, email="ppp@abvbg", password="PasS$ords")
+        self.assertFalse(user.validate(user.email, user.password))
 
 
 if __name__ == '__main__':
