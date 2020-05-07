@@ -6,6 +6,8 @@ from CinemaReservationSystem.utls.hash_pass import hash_password
 from CinemaReservationSystem.utls.create_salt import create_salt
 from CinemaReservationSystem.utls.cookies import *
 from CinemaReservationSystem.config.config_session import SESSION_NAME
+from CinemaReservationSystem.decorators import atomic
+
 
 
 class UserGateway:
@@ -57,3 +59,13 @@ class UserGateway:
         raw_users = self.db.cursor.execute()  # TODO: Select all users
 
         return [self.model(**row) for row in raw_users]
+
+    @atomic
+    def user(self, cursor, *, email):
+        cursor.execute('''
+            SELECT id
+              FROM users
+              WHERE email = (?)
+            ''', (email, ))
+
+        return cursor.fetchone()[0]

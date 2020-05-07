@@ -16,3 +16,6 @@ class UserContoller:
     def login_user(self, email, password):
         user = self.users_gateway.login(email=email, password=password)
         return user
+
+    def take_user_id(self, *, email):
+        return self.users_gateway.user(email=email)

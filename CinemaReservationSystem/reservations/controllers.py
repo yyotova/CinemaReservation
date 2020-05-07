@@ -22,3 +22,6 @@ class ReservationController:
 
     def not_available_spots(self, *, pr_id):
         return self.reservation_gateway.get_not_available_spots(pr_id=pr_id)
+
+    def take_seat(self, *, user_id, projection_id, seat):
+        self.reservation_gateway.make_reservation(user_id=user_id, projection_id=projection_id, seat=seat)
