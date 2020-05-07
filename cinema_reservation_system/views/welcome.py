@@ -16,5 +16,3 @@ def welcome():
         return True
     else:
         raise ValueError(f'Unknown command {command}.')
-
-# change to index view
