@@ -30,8 +30,8 @@ CREATE_RESERVATION = '''
         id INTEGER PRIMARY KEY,
         user_id INTEGER,
         projection_id INTEGER,
-        row INTEGER,
-        col INTEGER,
+        row INTEGER CHECK (row > 0 AND row <= 100),
+        col INTEGER CHEcK (col > 0 AND col <= 100),
         FOREIGN KEY(user_id) REFERENCES users(id),
         FOREIGN KEY(projection_id) REFERENCES projection(id)
     );

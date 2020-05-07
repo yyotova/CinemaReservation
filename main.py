@@ -15,7 +15,7 @@ class Application:
 
     @classmethod
     def build(cls):
-        cls.db.cursor.executescript(CREATE_USERS + CREATE_MOVIES + CREATE_PROJECTION + CREATE_RESERVATION + CREATE_SESSION)
+        cls.db.cursor.executescript(CREATE_USERS + CREATE_MOVIES + CREATE_PROJECTION + CREATE_RESERVATION)
         # TODO: Build rest of the tables
         # TODO: Seed with inistial data - consider using another command for this
         cls.db.connection.commit()
@@ -66,8 +66,11 @@ class Application:
                 date = input('Enter date(optional): ')
                 movie_view.print_movie_projections(movie_id=movie_id, date=date)
             elif command == '3':
-                reservation_view = ReservationView()
-                reservation_view.make_reservation()
+                    reservation_view = ReservationView()
+                    reservation_view.make_reservation()
+                    reservation_view.print_spots()
+                    email = read_cookie(SESSION_NAME).split(',')[0]
+                    reservation_view.choose_seat(email=email)
             elif command == 'exit':
                 exit = True
 
