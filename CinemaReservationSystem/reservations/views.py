@@ -8,7 +8,7 @@ class ReservationView:
         self.controler = ReservationController()
 
     def make_reservation(self):
-        tickets = input('Choose number of tickets: ')
+        self.tickets = input('Choose number of tickets: ')
         movie_view = MovieView()
         movie_view.print_all_movies()
 
@@ -19,3 +19,7 @@ class ReservationView:
 
         headers = ['id', 'movie_id', 'type', 'date', 'time', 'available_spots']
         print(tabulate([info for info in projections], headers=headers, tablefmt='pretty'))
+
+    def show_not_available_spots(self):
+        choosen_projection = input('Choose a projection: ')
+        return self.controler.not_available_spots(pr_id=choosen_projection)

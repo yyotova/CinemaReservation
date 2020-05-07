@@ -7,6 +7,7 @@ from CinemaReservationSystem.utls import welcome, menu
 from CinemaReservationSystem.utls.cookies import *
 from CinemaReservationSystem.config.config_session import SESSION_NAME
 from CinemaReservationSystem.reservations import ReservationView
+from CinemaReservationSystem.reservations import print_spots
 
 
 class Application:
@@ -54,6 +55,7 @@ class Application:
                 elif command == '3':
                     reservation_view = ReservationView()
                     reservation_view.make_reservation()
+                    print_spots()
                 elif command == 'exit':
                     exit = True
                     delete_cookie(SESSION_NAME)
