@@ -47,6 +47,8 @@ class Application:
             if choise == '2':
                 delete_cookie(SESSION_NAME)
                 if not welcome():
+                    exit = True
+                    loged = True
         if not loged:
             if not welcome():
                 exit = True
@@ -67,7 +69,7 @@ class Application:
                     reservation_view = ReservationView()
                     reservation_view.make_reservation()
                     reservation_view.print_spots()
-                    email = read_cookie(SESSION_NAME)
+                    email = read_cookie(SESSION_NAME).split(',')[0]
                     reservation_view.choose_seat(email=email)
             elif command == 'exit':
                 exit = True
