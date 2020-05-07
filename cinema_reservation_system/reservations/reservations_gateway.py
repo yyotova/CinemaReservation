@@ -44,3 +44,22 @@ class ReservationGateway:
             ''', (pr_id, ))
 
         return cursor.fetchone()
+
+    @atomic
+    def get_reservations_of_user(self, cursor, *, email):
+        cursor.execute('''
+        SELECT reservations.id,movies.name,projections.date,projections.time,row,col
+          FROM reservations
+          JOIN projections
+          ON reservations.projection_id = projections.id
+          JOIN movies
+          ON projections.movie_id = movies.id
+          JOIN users
+          ON reservations.user_id = users.id
+          WHERE email= ? ;
+        ''', (email, ))
+        return cursor.fetchall()
+
+    @atomic
+    def delete_reservation_of_user(self, cursor, *, id):
+        cursor.execute('''DELETE FROM reservations WHERE id = ? ;''', (id, ))

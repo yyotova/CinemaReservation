@@ -9,7 +9,7 @@ from pandas import *
 @login_required
 class ReservationView:
     def __init__(self):
-        self.controler = ReservationController()
+        self.controller = ReservationController()
         self.user = UserViews()
         self.movie_view = MovieView()
 
@@ -22,14 +22,14 @@ class ReservationView:
         self.choosen_movie = input('Choose a movie: ')
         self.title = self.movie_view.print_movie_title(movie_id=self.choosen_movie)
         print(f'Projections for movie "{self.title}": ')
-        self.projection = self.controler.get_available_spots(movie_id=self.choosen_movie)
+        self.projection = self.controller.get_available_spots(movie_id=self.choosen_movie)
 
         headers = ['id', 'movie_id', 'type', 'date', 'time', 'available_spots']
         print(tabulate([info for info in self.projection], headers=headers, tablefmt='pretty'))
 
     def step_3(self):
         self.choosen_projection = input('Choose a projection: ')
-        self.not_available_spots = self.controler.not_available_spots(pr_id=self.choosen_projection)
+        self.not_available_spots = self.controller.not_available_spots(pr_id=self.choosen_projection)
         matrix = []
         for i in range(1, 11):
             row = []
@@ -60,7 +60,7 @@ class ReservationView:
                     exit = True
 
         print('This is your reservation: ')
-        info = self.controler.info(pr_id=self.choosen_projection)
+        info = self.controller.info(pr_id=self.choosen_projection)
         print(f'''
             Movie:  {self.title}
             Date and time: {info[0]}, {info[1]} ({info[2]})
@@ -71,6 +71,13 @@ class ReservationView:
         confirm = input('Confirm - type \'finalize\': ')
         if confirm == 'finalize':
             user_id = self.user.user_id(email=email)
-            self.controler.take_seat(user_id=user_id, projection_id=self.choosen_projection, seat=self.choosen_seat)
+            self.controller.take_seat(user_id=user_id, projection_id=self.choosen_projection, seat=self.choosen_seat)
             print('Thanks!')
             return f'email: {email} projection: {self.choosen_projection} seat: {self.choosen_seat}'
+
+    def cancel_reservation(self, *, email):
+        reservations = self.controller.reservations_of_user(email=email)
+        headers = ['id', 'movie', 'date', 'time', 'row', 'col']
+        print(tabulate([info for info in reservations], headers=headers, tablefmt='pretty'))
+        projection_id = input('Choose id to cancel:')
+        self.controller.delete_reservation(id=projection_id)

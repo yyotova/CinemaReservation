@@ -28,3 +28,9 @@ class ReservationController:
 
     def info(self, *, pr_id):
         return self.reservation_gateway.info_pr(pr_id=pr_id)
+
+    def reservations_of_user(self, *, email):
+        return self.reservation_gateway.get_reservations_of_user(email=email)
+
+    def delete_reservation(self, *, id):
+        self.reservation_gateway.delete_reservation_of_user(id=id)

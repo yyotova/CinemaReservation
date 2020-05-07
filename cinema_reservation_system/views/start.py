@@ -36,6 +36,7 @@ def start():
         elif command == '3':
             reservation_view = ReservationView()
             if reservation_view:
+                email = read_cookie(SESSION_NAME).split(',')[0]
                 reservation_view.step_1()
                 cont = input('Do you want to continue? ')
                 if cont in ['yes', 'y']:
@@ -54,13 +55,23 @@ def start():
                     break
                 cont = input('Do you want to continue? ')
                 if cont in ['yes', 'y']:
-                    email = read_cookie(SESSION_NAME).split(',')[0]
                     reservation_view.step_5(email=email)
                 else:
                     break
             else:
                 print('You have to log in to make reservation!')
                 welcome()
+
+        elif command == '4':
+            reservation_view = ReservationView()
+            if reservation_view:
+                email = read_cookie(SESSION_NAME).split(',')[0]
+                reservation_view.cancel_reservation(email=email)
+
+            else:
+                print('You have to log in to make reservation!')
+                welcome()
+
 
         elif command == '5':
             exit = True
