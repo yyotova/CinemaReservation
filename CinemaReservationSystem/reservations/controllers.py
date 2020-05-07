@@ -25,3 +25,6 @@ class ReservationController:
 
     def take_seat(self, *, user_id, projection_id, seat):
         self.reservation_gateway.make_reservation(user_id=user_id, projection_id=projection_id, seat=seat)
+
+    def info(self, *, pr_id):
+        return self.reservation_gateway.info_pr(pr_id=pr_id)

@@ -34,3 +34,13 @@ class ReservationGateway:
             INSERT INTO reservations(user_id, projection_id, row, col)
               VALUES(?, ?, ?, ?)
             ''', (user_id, projection_id, row, col))
+
+    @atomic
+    def info_pr(self, cursor, *, pr_id):
+        cursor.execute('''
+            SELECT date, time, type
+              FROM projections
+              WHERE id = (?)
+            ''', (pr_id, ))
+
+        return cursor.fetchone()

@@ -33,10 +33,11 @@ class Application:
         cls.db.delete_passed_projection(date=date)
         cls.db.connection.commit()
         cls.db.connection.close()
-        print('Updated')
+        # print('Updated')
 
     @classmethod
     def start(self):
+        print('Welcome to HackCinema!')
         exit = False
         loged = False
         if check_for_session():
@@ -46,9 +47,6 @@ class Application:
                 loged = True
             if choise == '2':
                 delete_cookie(SESSION_NAME)
-                if not welcome():
-                    exit = True
-                    loged = True
         if not loged:
             if not welcome():
                 exit = True
@@ -66,11 +64,34 @@ class Application:
                 date = input('Enter date(optional): ')
                 movie_view.print_movie_projections(movie_id=movie_id, date=date)
             elif command == '3':
-                    reservation_view = ReservationView()
-                    reservation_view.make_reservation()
-                    reservation_view.print_spots()
-                    email = read_cookie(SESSION_NAME).split(',')[0]
-                    reservation_view.choose_seat(email=email)
+                reservation_view = ReservationView()
+                if reservation_view:
+                    reservation_view.step_1()
+                    cont = input('Do you want to continue? ')
+                    if cont in ['yes', 'y']:
+                        reservation_view.step_2()
+                    else:
+                        break
+                    cont = input('Do you want to continue? ')
+                    if cont in ['yes', 'y']:
+                        reservation_view.step_3()
+                    else:
+                        break
+                    cont = input('Do you want to continue? ')
+                    if cont in ['yes', 'y']:
+                        reservation_view.step_4()
+                    else:
+                        break
+                    cont = input('Do you want to continue? ')
+                    if cont in ['yes', 'y']:
+                        email = read_cookie(SESSION_NAME).split(',')[0]
+                        reservation_view.step_5(email=email)
+                    else:
+                        break
+                else:
+                    print('You have to log in to make reservation!')
+                    welcome()
+
             elif command == 'exit':
                 exit = True
 
