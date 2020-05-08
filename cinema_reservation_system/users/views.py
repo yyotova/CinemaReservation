@@ -1,6 +1,7 @@
 import sys
 sys.path.append('.')
 from cinema_reservation_system.users.controllers import UserContoller
+from getpass import getpass
 
 
 class UserViews:
@@ -9,7 +10,7 @@ class UserViews:
 
     def login(self):
         email = input('email: ')
-        password = input('Password: ')
+        password = getpass()
 
         return self.controller.login_user(email=email, password=password)
 
@@ -20,7 +21,7 @@ class UserViews:
         '''
         email = input('email: ')
         print(constraint)
-        password = input('Password: ')
+        password = getpass()
 
         return self.controller.create_user(email=email, password=password)
 
