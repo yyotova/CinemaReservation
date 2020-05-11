@@ -1,14 +1,14 @@
 from .models import ReservationModel
 from cinema_reservation_system.database.db import Database
-from cinema_reservation_system.decorators import atomic
+from cinema_reservation_system.decorators import atomicmethods
 
 
+@atomicmethods
 class ReservationGateway:
     def __init__(self):
         self.model = ReservationModel
         self.db = Database()
 
-    @atomic
     def available_spots(self, cursor, *, pr_id):
         cursor.execute('''SELECT COUNT(projection_id)
             FROM reservations
@@ -17,7 +17,6 @@ class ReservationGateway:
 
         return 100 - cursor.fetchone()[0]
 
-    @atomic
     def get_not_available_spots(self, cursor, *, pr_id):
         cursor.execute('''
             SELECT row, col
@@ -26,7 +25,6 @@ class ReservationGateway:
             ''', (pr_id, ))
         return cursor.fetchall()
 
-    @atomic
     def make_reservation(self, cursor, *, user_id, projection_id, seat):
         row = seat[0]
         col = seat[1]
@@ -35,7 +33,6 @@ class ReservationGateway:
               VALUES(?, ?, ?, ?)
             ''', (user_id, projection_id, row, col))
 
-    @atomic
     def info_pr(self, cursor, *, pr_id):
         cursor.execute('''
             SELECT date, time, type
@@ -45,7 +42,6 @@ class ReservationGateway:
 
         return cursor.fetchone()
 
-    @atomic
     def get_reservations_of_user(self, cursor, *, email):
         cursor.execute('''
         SELECT reservations.id,movies.name,projections.date,projections.time,row,col
@@ -60,6 +56,5 @@ class ReservationGateway:
         ''', (email, ))
         return cursor.fetchall()
 
-    @atomic
     def delete_reservation_of_user(self, cursor, *, id):
         cursor.execute('''DELETE FROM reservations WHERE id = ? ;''', (id, ))
