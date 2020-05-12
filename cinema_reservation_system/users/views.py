@@ -1,6 +1,4 @@
-import sys
-sys.path.append('.')
-from cinema_reservation_system.users.controllers import UserContoller
+from .controllers import UserContoller
 from getpass import getpass
 
 

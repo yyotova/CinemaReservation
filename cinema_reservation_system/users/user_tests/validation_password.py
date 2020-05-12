@@ -1,9 +1,8 @@
 import unittest
 import sys
-
 sys.path.append('.')
 
-from cinema_reservation_system.users.models import UserModel
+from cinema_reservation_system.users.models import UserModel  # noqa
 
 
 class TestPasswordValidation(unittest.TestCase):

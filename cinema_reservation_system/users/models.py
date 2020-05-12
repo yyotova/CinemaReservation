@@ -1,7 +1,7 @@
-import sys
-sys.path.append('.')
-
 from cinema_reservation_system.utls.special_sym_validation import check_for_special_symbol
+from cinema_reservation_system.utls.create_salt import create_salt
+from cinema_reservation_system.utls.hash_pass import hash_password
+import cinema_reservation_system.users.users_gateway
 
 
 class UserModel:
@@ -26,4 +26,12 @@ class UserModel:
         if pass_valid and email_valid:
             return True
         else:
-            return False
+            raise Exception("Wrong username or password")
+
+    @staticmethod
+    def create_pass(password):
+        salt = create_salt()
+        if cinema_reservation_system.users.users_gateway.UserGateway().get_salt(salt) is None:
+            salt = create_salt()
+        password = hash_password(password, salt)
+        return password, salt
