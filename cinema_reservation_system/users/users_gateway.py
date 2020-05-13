@@ -13,6 +13,7 @@ class UserGateway:
 
     def create(self, cursor, *, email, password, salt):
         try:
+            # session.add(class)
             cursor.execute(INSERT_USER, (email, password, salt))
             return email
         except Exception as e:

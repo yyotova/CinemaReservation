@@ -1,30 +1,31 @@
 import sys
-from cinema_reservation_system.database.db import Database
-from cinema_reservation_system.database.create_tables import *
-from cinema_reservation_system.views.start import start
-
+from cinema_reservation_system.database.db import *
+from cinema_reservation_system.users.models import User
+from cinema_reservation_system.reservations.models import Reservation
+# from cinema_reservation_system.movies.models import *
+# from cinema_reservation_system.database.create_tables import *
+# from cinema_reservation_system.views.start import start
+# from 
 
 class Application:
-    db = Database()
+    # db = Database()
 
     @classmethod
     def build(cls):
-        cls.db.cursor.executescript(CREATE_USERS + CREATE_MOVIES + CREATE_PROJECTION + CREATE_RESERVATION)
-        cls.db.connection.commit()
-        cls.db.connection.close()
-        print('Done.')
+        # engin
+        Base.metadata.create_all(engine)
 
-    @classmethod
-    def insert_data(cls):
-        cls.db.insert_data()
-        cls.db.connection.commit()
-        cls.db.connection.close()
+    # @classmethod
+    # def insert_data(cls):
+    #     cls.db.insert_data()
+    #     cls.db.connection.commit()
+    #     cls.db.connection.close()
 
-    @classmethod
-    def update_projections(cls, *, date):
-        cls.db.delete_passed_projection(date=date)
-        cls.db.connection.commit()
-        cls.db.connection.close()
+    # @classmethod
+    # def update_projections(cls, *, date):
+    #     cls.db.delete_passed_projection(date=date)
+    #     cls.db.connection.commit()
+    #     cls.db.connection.close()
 
     @classmethod
     def start(self):
