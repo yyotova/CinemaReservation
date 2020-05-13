@@ -17,6 +17,12 @@ class ReservationGateway:
 
         return 100 - cursor.fetchone()[0]
 
+
+    # def available_spots(self, session, *, pr_id):
+    #     session.query(reservations.pro).all()
+
+    #     return 100 - cursor.fetchone()[0]
+    
     def get_not_available_spots(self, cursor, *, pr_id):
         cursor.execute('''
             SELECT row, col

@@ -1,1 +1,1 @@
-from .views import ReservationView
+# from .views import ReservationView
