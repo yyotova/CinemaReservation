@@ -1,38 +1,58 @@
-CREATE_USERS = '''
-    CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY,
-        email VARCHAR(50) NOT NULL UNIQUE,
-        password VARCHAR(255),
-        salt VARCHAR(50)
-    );
-'''
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, CheckConstraint, Float, ForeignKey
+from sqlalchemy import create_engine
+from sqlalchemy.orm import relationship
 
-CREATE_MOVIES = '''
-    CREATE TABLE IF NOT EXISTS movies(
-        id INTEGER PRIMARY KEY,
-        name VARCHAR(50),
-        rating REAL CHECK(rating > 0 AND rating <= 10)
-    );
-'''
 
-CREATE_PROJECTION = '''
-    CREATE TABLE IF NOT EXISTS projections(
-        id INTEGER PRIMARY KEY,
-        movie_id INTEGER,
-        type VARCHAR(5),
-        date VARCHAR(20),
-        time VARCHAR(10),
-        FOREIGN KEY(movie_id) REFERENCES movies(id)
-    );
-'''
-CREATE_RESERVATION = '''
-    CREATE TABLE IF NOT EXISTS reservations(
-        id INTEGER PRIMARY KEY,
-        user_id INTEGER,
-        projection_id INTEGER,
-        row INTEGER CHECK (row > 0 AND row <= 100),
-        col INTEGER CHEcK (col > 0 AND col <= 100),
-        FOREIGN KEY(user_id) REFERENCES users(id),
-        FOREIGN KEY(projection_id) REFERENCES projection(id)
-    );
-'''
+engine = create_engine("sqlite:///cinema.db")
+Base = declarative_base()
+
+
+class User(Base):
+    __tablename__ = 'users'
+    user_id = Column(Integer, primary_key=True)
+    email = Column(String, unique=True)
+    password = Column(String)
+    salt = Column(String)
+
+    def __repr__(self):
+        return f'{self.email}'
+
+
+class Movie(Base):
+    __tablename__ = 'movies'
+    movie_id = Column(Integer, primary_key=True)
+    name = Column(String)
+    rating = Column(Float, CheckConstraint('rating>0 and rating<10'))
+
+    def __repr__(self):
+        return f'name: {self.name}  rating: {self.rating}'
+
+
+class Projection(Base):
+    __tablename__ = 'projections'
+    projection_id = Column(Integer, primary_key=True)
+    movie_id = Column(Integer, ForeignKey(Movie.movie_id))
+    movie = relationship(Movie, backref='projections')
+    movie_type = Column(String)
+    date = Column(String)
+    time = Column(String)
+
+    def __repr__(self):
+        return f'projection: {self.projection_id}, movie: {self.movie_id},\
+            date: {self.date}, time: {self.time}'
+
+
+class Reservation(Base):
+    __tablename__ = 'reservations'
+    reservation_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey(User.user_id))
+    user = relationship(User, backref='reservations')
+    projection_id = Column(Integer, ForeignKey(Projection.projection_id))
+    projection = relationship(Projection, backref='reservations')
+    row = Column(Integer, CheckConstraint('row>0 and row<10'))
+    col = Column(Integer, CheckConstraint('col>0 and col<10'))
+
+    def __repr__(self):
+        return f'res: {self.reservation_id}, user: {self.user_id},\
+            projection: {self.projection_id}, row: {self.row}, col: {self.col}'
