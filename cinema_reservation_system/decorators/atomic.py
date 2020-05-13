@@ -10,3 +10,10 @@ def atomic(method):
         db.connection.close()
         return value
     return inner_method
+
+
+def atomicmethods(cls):
+    for attr, value in vars(cls).items():
+        if not attr.startswith('__') and callable(value):
+            setattr(cls, attr, atomic(value))
+    return cls
