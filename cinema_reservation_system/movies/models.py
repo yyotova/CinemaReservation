@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, CheckConstraint, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, CheckConstraint, ForeignKey
 from sqlalchemy.orm import relationship
 from cinema_reservation_system.database.db import Base
 
