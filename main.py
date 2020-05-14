@@ -29,6 +29,7 @@ if __name__ == '__main__':
     if command == 'build':
         Application.build()
     elif command == 'start':
+        # print(today)
         Application.update_projections(date=today)
         Application.start()
     elif command == 'insert_data':
