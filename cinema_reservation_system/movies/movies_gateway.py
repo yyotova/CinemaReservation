@@ -1,42 +1,29 @@
-from cinema_reservation_system.database.db import Database
 from cinema_reservation_system.decorators import atomicmethods
+from sqlalchemy import func
+from sqlalchemy import and_
+from .models import Movie, Projection
 
 
 @atomicmethods
 class MovieGateway:
-    def __init__(self):
-        self.db = Database()
-
-    def get_all_movies(self, cursor):
-        cursor.execute('SELECT * FROM movies ORDER BY rating DESC')
-        movies = cursor.fetchall()
+    def get_all_movies(self, session):
+        movies = session.query(Movie).all()
 
         return movies
 
-    def get_movie_projection(self, cursor, **condition):
+    def get_movie_projection(self, session, **condition):
         if 'date' in condition:
-            search_query = '''
-                SELECT *
-                  FROM projections
-                  WHERE movie_id = (?)
-                    AND date LIKE (?)
-            '''
-            cursor.execute(search_query, (condition['movie_id'], '%' + condition['date'] + '%'))
+            projections = session.query(Projection).\
+                filter(and_(Projection.movie_id == condition['movie_id'],
+                            Projection.date == condition['date'])).all()
 
         else:
-            search_query = '''
-                SELECT *
-                  FROM projections
-                  WHERE movie_id = (?)
-            '''
-            cursor.execute(search_query, (condition['movie_id'], ))
-
-        projections = cursor.fetchall()
+            projections = session.query(Projection).\
+            filter(Projection.movie_id == condition['movie_id']).all()
 
         return projections
 
-    def get_movie_title(self, cursor, *, movie_id):
-        cursor.execute('SELECT * FROM movies WHERE id = (?)', (movie_id, ))
-        title = cursor.fetchone()[1]
+    def get_movie_title(self, session, *, movie_id):
+        title = session.query(Movie).filter(Movie.movie_id == movie_id).one()[1]
 
         return title
