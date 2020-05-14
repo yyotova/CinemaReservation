@@ -2,30 +2,20 @@ import sys
 from cinema_reservation_system.database.db import *
 from cinema_reservation_system.users.models import User
 from cinema_reservation_system.reservations.models import Reservation
-# from cinema_reservation_system.movies.models import *
-# from cinema_reservation_system.database.create_tables import *
-# from cinema_reservation_system.views.start import start
-# from 
+from cinema_reservation_system.movies.models import Movie, Projection
+from cinema_reservation_system.views.start import start
+from cinema_reservation_system.utls.delete_old_projections import delete_passed_projection
+
 
 class Application:
-    # db = Database()
 
     @classmethod
     def build(cls):
-        # engin
         Base.metadata.create_all(engine)
 
-    # @classmethod
-    # def insert_data(cls):
-    #     cls.db.insert_data()
-    #     cls.db.connection.commit()
-    #     cls.db.connection.close()
-
-    # @classmethod
-    # def update_projections(cls, *, date):
-    #     cls.db.delete_passed_projection(date=date)
-    #     cls.db.connection.commit()
-    #     cls.db.connection.close()
+    @classmethod
+    def update_projections(cls, *, date):
+        delete_passed_projection(date=date)
 
     @classmethod
     def start(self):

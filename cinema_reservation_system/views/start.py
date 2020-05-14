@@ -24,7 +24,6 @@ def start():
             exit = True
             loged = True
     while not exit:
-        # clear()
         menu()
         command = input('Command: ')
         if command == '1':
@@ -36,7 +35,10 @@ def start():
             movie_view = MovieView()
             movie_view.print_all_movies()
             movie_id = input('Enter movie_id: ')
-            date = input('Enter date(optional): ')
+            date = None
+            date_input = input('Enter date(optional): ')
+            if date_input != '':
+                date = date_input
             movie_view.print_movie_projections(movie_id=movie_id, date=date)
         elif command == '3':
             clear()

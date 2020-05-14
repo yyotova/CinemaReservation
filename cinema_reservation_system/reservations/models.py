@@ -18,4 +18,3 @@ class Reservation(Base):
     def __repr__(self):
         return f'res: {self.reservation_id}, user: {self.user_id},\
             projection: {self.projection_id}, row: {self.row}, col: {self.col}'
-

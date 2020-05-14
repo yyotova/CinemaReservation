@@ -1,42 +1,33 @@
-from cinema_reservation_system.database.db import Database
 import cinema_reservation_system.users.models
-from cinema_reservation_system.database.user_specific.user_manipulation import *
-from cinema_reservation_system.database.create_tables import *
+from cinema_reservation_system.users.models import User
 from cinema_reservation_system.decorators import atomicmethods
 
 
 @atomicmethods
 class UserGateway:
     def __init__(self):
-        self.model = cinema_reservation_system.users.models.UserModel
-        self.db = Database()
+        self.model = cinema_reservation_system.users.models.User
 
-    def create(self, cursor, *, email, password, salt):
+    def create(self, session, *, email, password, salt):
         try:
-            # session.add(class)
-            cursor.execute(INSERT_USER, (email, password, salt))
+            session.add(User(email=email, password=password, salt=salt))
             return email
         except Exception as e:
             return e
 
-    def login(self, cursor, *, email, password):
-        return cursor.execute(SELECT_USER, (email, password)).fetchone()
+    def login(self, session, *, email, password):
+        return session.query(User.email).filter(User.email == email).filter(User.password == password).first()
 
-    def user(self, cursor, *, email):
-        cursor.execute('''
-            SELECT id
-              FROM users
-              WHERE email = (?)
-            ''', (email, ))
+    def user(self, session, *, email):
+        return session.query(User.user_id).filter(User.email == email).first()
 
-        return cursor.fetchone()[0]
+    def get_salt(self, session, salt):
+        salt = session.query(User.salt).filter(User.salt == salt).first()
+        if salt:
+            return salt
 
-    def get_salt(self, cursor, salt):
-        if cursor.execute(SELECT_SALT, (salt, )):
-            return cursor.fetchone()
+    def get_user_email(self, session, email):
+        return session.query(User.email).filter(User.email == email).first()
 
-    def get_user_email(self, cursor, email):
-        return cursor.execute(SELECT_USER_EMAIL, (email,)).fetchone()
-
-    def get_user_salt(self, cursor, email):
-        return cursor.execute(SELECT_SALT_USER, (email, )).fetchone()[0]
+    def get_user_salt(self, session, email):
+        return session.query(User.salt).filter(User.email == email).first()

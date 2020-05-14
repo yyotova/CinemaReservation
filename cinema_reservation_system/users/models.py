@@ -1,7 +1,7 @@
-# from cinema_reservation_system.utls.special_sym_validation import check_for_special_symbol
-# from cinema_reservation_system.utls.create_salt import create_salt
-# from cinema_reservation_system.utls.hash_pass import hash_password
-# import cinema_reservation_system.users.users_gateway
+from cinema_reservation_system.utls.special_sym_validation import check_for_special_symbol
+from cinema_reservation_system.utls.create_salt import create_salt
+from cinema_reservation_system.utls.hash_pass import hash_password
+import cinema_reservation_system.users.users_gateway
 from cinema_reservation_system.database.db import Base
 from sqlalchemy import Column, Integer, String
 
@@ -15,13 +15,6 @@ class User(Base):
 
     def __repr__(self):
         return f'{self.email}'
-
-
-class UserModel:
-    def __init__(self, *, id, email, password):
-        self.id = id
-        self.email = email
-        self.password = password
 
     @staticmethod
     def validate(email, password):
