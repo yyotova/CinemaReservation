@@ -1,3 +1,3 @@
 from .users_gateway import UserGateway
-from .models import UserModel
+from .models import User
 from .views import UserViews

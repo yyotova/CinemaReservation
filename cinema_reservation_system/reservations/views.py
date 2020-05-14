@@ -1,6 +1,6 @@
 from .controllers import ReservationController
 from cinema_reservation_system.movies.views import MovieView
-from cinema_reservation_system.users import UserViews
+from cinema_reservation_system.users.views import UserViews
 from cinema_reservation_system.decorators import login_required, log_info
 from tabulate import tabulate
 from pandas import *
@@ -80,4 +80,4 @@ class ReservationView:
         headers = ['id', 'movie', 'date', 'time', 'row', 'col']
         print(tabulate([info for info in reservations], headers=headers, tablefmt='pretty'))
         projection_id = input('Choose id to cancel:')
-        self.controller.delete_reservation(id=projection_id)
+        self.controller.delete_reservation(proj_id=projection_id)

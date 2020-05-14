@@ -1,6 +1,6 @@
 import sys
 sys.path.append('.')
-from cinema_reservation_system.users import UserViews
+from cinema_reservation_system.users.views import UserViews #no qa
 
 
 def welcome():

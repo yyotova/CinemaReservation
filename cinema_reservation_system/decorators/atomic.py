@@ -1,13 +1,11 @@
-from cinema_reservation_system.database.db import Database
+from cinema_reservation_system.database.db import *
 
 
 def atomic(method):
     def inner_method(instance, *args, **kwargs):
-        db = Database()
-        cursor = db.connection.cursor()
-        value = method(instance, cursor, *args, **kwargs)
-        db.connection.commit()
-        db.connection.close()
+        session = Session()
+        value = method(instance, session, *args, **kwargs)
+        session.commit()
         return value
     return inner_method
 
