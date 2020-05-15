@@ -5,7 +5,7 @@ from cinema_reservation_system.utls.special_sym_validation import check_for_spec
 class TestSpecialSym_validation(unittest.TestCase):
 
     def test_secial_sym_validation_with_special_sym(self):
-        self.assertTrue(check_for_special_symbol('_'))
+        self.assertTrue(check_for_special_symbol(' '))
 
     def test_secial_sym_validation_with_letter(self):
         self.assertFalse(check_for_special_symbol('a'))
