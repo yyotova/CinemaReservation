@@ -1,8 +1,5 @@
 import unittest
-import sys
-sys.path.append('.')
-
-from cinema_reservation_system.users.controllers import UserContoller  # noqa
+from cinema_reservation_system.users.controllers import UserContoller
 
 
 class TestUsersController(unittest.TestCase):

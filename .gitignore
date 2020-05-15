@@ -1,2 +1,8 @@
 __pycache__/
 *.py[cod]
+
+*.sqlite
+*.db
+
+**/session.txt
+**/info.txt

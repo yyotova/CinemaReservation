@@ -1,7 +1,4 @@
 import unittest
-import sys
-sys.path.append('.')
-
 from cinema_reservation_system.utls.special_sym_validation import check_for_special_symbol
 
 

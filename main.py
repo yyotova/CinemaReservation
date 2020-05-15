@@ -1,8 +1,8 @@
 import sys
 from cinema_reservation_system.database.db import *
-from cinema_reservation_system.users.models import User
-from cinema_reservation_system.reservations.models import Reservation
-from cinema_reservation_system.movies.models import Movie, Projection
+from cinema_reservation_system.users.models import User # noqa
+from cinema_reservation_system.reservations.models import Reservation # noqa
+from cinema_reservation_system.movies.models import Movie, Projection # noqa
 from cinema_reservation_system.views.start import start
 from cinema_reservation_system.utls.delete_old_projections import delete_passed_projection
 
