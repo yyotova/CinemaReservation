@@ -1,0 +1,2 @@
+email: anni@gmail.com projection: 8 seat: [6, 6]
+email: anni@gmail.com projection: 5 seat: [6, 8]
