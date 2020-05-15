@@ -1,6 +1,7 @@
 from cinema_reservation_system.utls.cookies import *
 from cinema_reservation_system.config.config_session import SESSION_NAME
 
+
 def menu():
     print(f'''
     [1] show movies
@@ -10,6 +11,7 @@ def menu():
     [5] exit
     [6] help
     ''')
+
 
 def session_menu():
     menu = f'''

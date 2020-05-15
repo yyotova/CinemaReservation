@@ -1,5 +1,6 @@
 import sys
 sys.path.append('.')
+
 special_symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '<', '_', '+', '-', '?']
 
 

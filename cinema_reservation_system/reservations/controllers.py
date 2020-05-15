@@ -9,7 +9,6 @@ class ReservationController:
     def get_available_spots(self, *, movie_id):
         movie_view = MovieView()
         projections = movie_view.get_projections(movie_id=movie_id)
-
         available_spots = []
         for p in projections:
             available_spots.append(self.reservation_gateway.available_spots(pr_id=p[0]))
@@ -32,5 +31,5 @@ class ReservationController:
     def reservations_of_user(self, *, email):
         return self.reservation_gateway.get_reservations_of_user(email=email)
 
-    def delete_reservation(self, *, id):
-        self.reservation_gateway.delete_reservation_of_user(id=id)
+    def delete_reservation(self, *, proj_id):
+        self.reservation_gateway.delete_reservation_of_user(proj_id=proj_id)

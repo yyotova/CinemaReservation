@@ -1,42 +1,28 @@
-from cinema_reservation_system.database.db import Database
 from cinema_reservation_system.decorators import atomicmethods
+from sqlalchemy import and_
+from .models import Movie, Projection
 
 
 @atomicmethods
 class MovieGateway:
-    def __init__(self):
-        self.db = Database()
-
-    def get_all_movies(self, cursor):
-        cursor.execute('SELECT * FROM movies ORDER BY rating DESC')
-        movies = cursor.fetchall()
+    def get_all_movies(self, session):
+        movies = session.query(Movie.movie_id, Movie.name, Movie.rating).all()
 
         return movies
 
-    def get_movie_projection(self, cursor, **condition):
+    def get_movie_projection(self, session, **condition):
         if 'date' in condition:
-            search_query = '''
-                SELECT *
-                  FROM projections
-                  WHERE movie_id = (?)
-                    AND date LIKE (?)
-            '''
-            cursor.execute(search_query, (condition['movie_id'], '%' + condition['date'] + '%'))
+            projections = session.query(Projection.projection_id, Projection.movie_id, Projection.movie_type, Projection.date, Projection.time).\
+                filter(and_(Projection.movie_id == condition['movie_id'],
+                            Projection.date.like(f'%{condition["date"]}%'))).all()
 
         else:
-            search_query = '''
-                SELECT *
-                  FROM projections
-                  WHERE movie_id = (?)
-            '''
-            cursor.execute(search_query, (condition['movie_id'], ))
-
-        projections = cursor.fetchall()
+            projections = session.query(Projection.projection_id, Projection.movie_id, Projection.movie_type, Projection.date, Projection.time).\
+                filter(Projection.movie_id == condition['movie_id']).all()
 
         return projections
 
-    def get_movie_title(self, cursor, *, movie_id):
-        cursor.execute('SELECT * FROM movies WHERE id = (?)', (movie_id, ))
-        title = cursor.fetchone()[1]
+    def get_movie_title(self, session, *, movie_id):
+        title = session.query(Movie.name).filter(Movie.movie_id == movie_id).first()[0]
 
         return title
