@@ -8,7 +8,6 @@ from cinema_reservation_system.utls.delete_old_projections import delete_passed_
 
 
 class Application:
-
     @classmethod
     def build(cls):
         Base.metadata.create_all(engine)
@@ -28,11 +27,13 @@ if __name__ == '__main__':
 
     if command == 'build':
         Application.build()
+
     elif command == 'start':
-        # print(today)
         Application.update_projections(date=today)
         Application.start()
+
     elif command == 'insert_data':
         Application.insert_data()
+
     else:
         raise ValueError(f'Unknown command {command}. Valid ones are "build", "start" and "insert data"')
