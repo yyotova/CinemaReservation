@@ -22,14 +22,14 @@ class Application:
 
 
 if __name__ == '__main__':
-    command = sys.argv[2]
-    today = sys.argv[1]
+    command = sys.argv[1]
+    # today = sys.argv[1]
 
     if command == 'build':
         Application.build()
 
     elif command == 'start':
-        Application.update_projections(date=today)
+        # Application.update_projections(date=today)
         Application.start()
 
     elif command == 'insert_data':
